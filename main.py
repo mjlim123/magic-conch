@@ -1429,4 +1429,4 @@ async def blackjack(ctx, amount):
 
 
            
-client.run('ODU2NjA0NDMxOTQ4ODQwOTgw.YNDdCw.7DgS7VuposPxmQhbbwTOogj137E')
+client.run('ODU2NjA0NDMxOTQ4ODQwOTgw.YNDdCw.T70t0qwo163hYTesdooexOvBYik')
