@@ -792,11 +792,10 @@ async def ask(ctx):
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         while status == "in channel":
-            try:
                 msg = await client.wait_for('message',timeout=60)
                 if msg.channel == ctx.channel:
                     for word in questionWords:
-                        try:
+                        
                             if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
                                 if msg.content.lower().startswith(word):
                                     if msg.content == "is daniel gay":
@@ -824,14 +823,10 @@ async def ask(ctx):
                                 break
                             else:
                                 pass
-                        except Exception as e:
-                            print(e)
+                        
                     else:
                         print("something went wrong")
                         pass
-            except Exception as e:
-                print(e)
-                break
         await ctx.guild.voice_client.disconnect()      
     else:
         await ctx.send("You must be in a voice channel to use this command.")
