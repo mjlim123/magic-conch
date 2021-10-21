@@ -1441,7 +1441,7 @@ async def blackjack(ctx, amount):
 
 @client.command()
 async def test(ctx):
-    file = open("requirements.txt","r")
+    file = open("MP3_Files/test.txt","r")
     for line in file:
         print(line)
 
