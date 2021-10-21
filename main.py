@@ -1434,5 +1434,14 @@ async def blackjack(ctx, amount):
                 print(losers)
 
 
+
+
+@client.command()
+async def test(ctx):
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        await asyncio.sleep(3)
+
            
 client.run('ODU2NjA0NDMxOTQ4ODQwOTgw.YNDdCw.T70t0qwo163hYTesdooexOvBYik')
