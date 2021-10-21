@@ -3,3 +3,4 @@ asyncio
 mysql.connector
 PyNaCl
 ffmpeg
+async-timeout

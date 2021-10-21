@@ -683,7 +683,7 @@ async def russian(ctx, amount):
                             status = 'starting'
                     else:
                         pass
-                except asyncio.TimeoutError:
+                except :
                     break
             if len(playerList) > 1:
                 await ctx.send("Game is starting!")
@@ -812,7 +812,7 @@ async def ask(ctx):
                         print("something went wrong")
                         pass
             except:
-                asyncio.TimeoutError
+                
                 break
         await ctx.guild.voice_client.disconnect()      
     else:
@@ -930,7 +930,7 @@ async def duel(ctx, user):
                 else:
                     pass
             except:
-                asyncio.TimeoutError
+                
                 break
         if len(users) == 2:
             userCharacters = {}
@@ -958,7 +958,7 @@ async def duel(ctx, user):
                     else:
                         pass
                 except:
-                    asyncio.TimeoutError
+                    
                     break
         if len(userCharacters) == 2:
             player1 = inventoryValues[userCharacters[users[0].id]]
@@ -1215,7 +1215,7 @@ async def blackjack(ctx, amount):
                 except:
                     await ctx.send(msg.author.mention + "Invalid Entry.")
             except:
-                asyncio.TimeoutError
+                
                 await ctx.send("Blackjack table is starting!")
                 break
         print(bets)
@@ -1429,6 +1429,7 @@ async def test(ctx):
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         await asyncio.sleep(3)
+        await ctx.guild.voice_client.disconnect()
 
            
 client.run('ODU2NjA0NDMxOTQ4ODQwOTgw.YNDdCw.T70t0qwo163hYTesdooexOvBYik')
