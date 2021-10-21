@@ -4,6 +4,7 @@ from discord.ext import commands
 from discord.ext.commands.core import check
 from discord.ext.commands import cooldown
 from discord.message import Message
+
 import mysql.connector
 from mysql.connector.cursor import MySQLCursor
 import random
@@ -796,28 +797,27 @@ async def ask(ctx):
                 msg = await client.wait_for('message',timeout=60)
                 if msg.channel == ctx.channel:
                     for word in questionWords:
-                        
                             if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
                                 if msg.content.lower().startswith(word):
                                     if msg.content == "is daniel gay":
                                         choice = random.randint(1,2)
-                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/" + yes[choice]))
+                                        vc.play(discord.FFmpegPCMAudio("MP3_Files/guh.mp3"))
                                         break
-                                    elif msg.content.lower().startswith("guh"):
-                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[9]))
-                                        break
-                                    elif msg.content.lower().startswith("sigh"):
-                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[10]))
-                                        break
-                                    else:
-                                        choice = random.randint(1,sizeOfDict)
-                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[choice]))
-                                        break
+                                    # elif msg.content.lower().startswith("guh"):
+                                    #     vc.play(discord.FFmpegPCMAudio(source="/MP3_Files/"+ responses[9]))
+                                    #     break
+                                    # elif msg.content.lower().startswith("sigh"):
+                                    #     vc.play(discord.FFmpegPCMAudio(source="/MP3_Files/"+ responses[10]))
+                                    #     break
+                                    # else:
+                                    #     choice = random.randint(1,sizeOfDict)
+                                    #     vc.play(discord.FFmpegPCMAudio("MP3_Files/"+ responses[choice]))
+                                    #     break
                                 
                                 else:
                                     print("Im in")
                                     choice = random.randint(1,sizeOfDict)
-                                    vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[choice]))
+                                    vc.play(discord.FFmpegPCMAudio(source="/MP3_Files/"+ responses[choice]))
 
                             elif msg.content == "dc":
                                 await ctx.guild.voice_client.disconnect()
