@@ -783,17 +783,17 @@ async def ask(ctx):
                                 if msg.content.lower().startswith(word):
                                     if msg.content == "is daniel gay":
                                         choice = random.randint(1,2)
-                                        vc.play(discord.FFmpegPCMAudio(executable="/app/MP3_Files/ffmpeg-n4.4-175-ga2bb836e55-win64-gpl-4.4/bin/ffmpeg.exe", source="/app/MP3_Files/" + yes[choice]))
+                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/" + yes[choice]))
                                         break
                                     elif msg.content.lower().startswith("guh"):
-                                        vc.play(discord.FFmpegPCMAudio(executable="/app/MP3_Files/ffmpeg-n4.4-175-ga2bb836e55-win64-gpl-4.4/bin/ffmpeg.exe", source="/app/MP3_Files/"+ responses[9]))
+                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[9]))
                                         break
                                     elif msg.content.lower().startswith("sigh"):
-                                        vc.play(discord.FFmpegPCMAudio(executable="/app/MP3_Files/ffmpeg-n4.4-175-ga2bb836e55-win64-gpl-4.4/bin/ffmpeg.exe", source="/app/MP3_Files/"+ responses[10]))
+                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[10]))
                                         break
                                     else:
                                         choice = random.randint(1,sizeOfDict)
-                                        vc.play(discord.FFmpegPCMAudio(executable="/app/MP3_Files/ffmpeg-n4.4-175-ga2bb836e55-win64-gpl-4.4/bin/ffmpeg.exe", source="/app/MP3_Files/"+ responses[choice]))
+                                        vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[choice]))
                                         break
                                 
                                 else:
