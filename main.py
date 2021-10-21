@@ -10,11 +10,17 @@ import random
 import asyncio
 
 
+# db = mysql.connector.connect(
+#     host="localhost",
+#     user="root",
+#     passwd="Mjlizbel0802!",
+#     database="DiscordBot"
+# )
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="Mjlizbel0802!",
-    database="DiscordBot"
+    host="us-cdbr-east-04.cleardb.com",
+    user="b48a25f7a165a9",
+    passwd="7774a7de",
+    database="heroku_7e0961da45020f8"
 )
 
 cursor = db.cursor(buffered=True)
