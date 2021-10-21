@@ -796,37 +796,40 @@ async def ask(ctx):
             try:
                 msg = await client.wait_for('message',timeout=60)
                 if msg.channel == ctx.channel:
-                    for word in questionWords:
-                            if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
-                                if msg.content.lower().startswith(word):
-                                    if msg.content == "is daniel gay":
-                                        choice = random.randint(1,2)
-                                        vc.play(discord.FFmpegPCMAudio("MP3_Files/guh.mp3"))
-                                        break
-                                    # elif msg.content.lower().startswith("guh"):
-                                    #     vc.play(discord.FFmpegPCMAudio(source="/MP3_Files/"+ responses[9]))
-                                    #     break
-                                    # elif msg.content.lower().startswith("sigh"):
-                                    #     vc.play(discord.FFmpegPCMAudio(source="/MP3_Files/"+ responses[10]))
-                                    #     break
-                                    # else:
-                                    #     choice = random.randint(1,sizeOfDict)
-                                    #     vc.play(discord.FFmpegPCMAudio("MP3_Files/"+ responses[choice]))
-                                    #     break
-                                
-                                else:
-                                    print("Im in")
-                                    choice = random.randint(1,sizeOfDict)
-                                    vc.play(discord.FFmpegPCMAudio(source="/MP3_Files/"+ responses[choice]))
+                    try:
+                        for word in questionWords:
+                                if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
+                                    if msg.content.lower().startswith(word):
+                                        if msg.content == "is daniel gay":
+                                            choice = random.randint(1,2)
+                                            vc.play(discord.FFmpegPCMAudio("MP3_Files/"+yes[choice]))
+                                            break
+                                        elif msg.content.lower().startswith("guh"):
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[9]))
+                                            break
+                                        elif msg.content.lower().startswith("sigh"):
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[10]))
+                                            break
+                                        else:
+                                            choice = random.randint(1,sizeOfDict)
+                                            vc.play(discord.FFmpegPCMAudio("MP3_Files/"+responses[choice]))
+                                            break
+                                    
+                                    else:
+                                        print("Im in")
+                                        choice = random.randint(1,sizeOfDict)
+                                        vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[choice]))
 
-                            elif msg.content == "dc":
-                                await ctx.guild.voice_client.disconnect()
-                                break
-                            else:
-                                pass                       
-                    else:
-                        print("something went wrong")
-                        pass
+                                elif msg.content == "dc":
+                                    await ctx.guild.voice_client.disconnect()
+                                    break
+                                else:
+                                    pass   
+                    except:
+                        pass                  
+                else:
+                    print("something went wrong")
+                    pass
             except Exception as e:
                 print(e)
                 print("well shit")
