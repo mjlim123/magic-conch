@@ -799,7 +799,7 @@ async def ask(ctx):
                                 else:
                                     print("Im in")
                                     choice = random.randint(1,sizeOfDict)
-                                    vc.play(discord.FFmpegPCMAudio(executable="/app/MP3_Files/ffmpeg-n4.4-175-ga2bb836e55-win64-gpl-4.4/bin/ffmpeg.exe", source="/app/MP3_Files/"+ responses[choice]))
+                                    vc.play(discord.FFmpegPCMAudio(source="/app/MP3_Files/"+ responses[choice]))
 
                             elif msg.content == "dc":
                                 await ctx.guild.voice_client.disconnect()
