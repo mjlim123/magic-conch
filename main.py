@@ -806,8 +806,8 @@ async def ask(ctx):
                                 break
                             else:
                                 pass
-                        except:
-                            pass
+                        except Exception as e:
+                            print(e)
                     else:
                         print("something went wrong")
                         pass
