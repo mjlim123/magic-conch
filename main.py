@@ -829,6 +829,7 @@ async def ask(ctx):
                         pass
             except Exception as e:
                 print(e)
+                print("well shit")
                 break
         await ctx.guild.voice_client.disconnect()      
     else:
