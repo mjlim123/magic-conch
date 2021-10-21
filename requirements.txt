@@ -1,3 +1,4 @@
 discord
 asyncio
 mysql.connector
+PyNaCl
