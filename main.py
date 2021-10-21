@@ -8,6 +8,7 @@ import mysql.connector
 from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
+import mysql
 
 
 # db = mysql.connector.connect(
@@ -40,18 +41,34 @@ intents.members = True
 client = commands.Bot(intents=intents, command_prefix= '$')
 
 def changeBalance(id, currency, amount):
+    db = mysql.connector.connect(
+    host="us-cdbr-east-04.cleardb.com",
+    user="b48a25f7a165a9",
+    passwd="7774a7de",
+    database="heroku_7e0961da45020f8"
+    )
+
+    cursor = db.cursor(buffered=True)
+
     cursor.execute("UPDATE inventory SET {} = {} + {} WHERE id={}".format(str(currency), str(currency), str(amount), str(id)))
     db.commit()
 
 def checkBalance(item, id):
-    error = "Something went wrong."
+    db = mysql.connector.connect(
+    host="us-cdbr-east-04.cleardb.com",
+    user="b48a25f7a165a9",
+    passwd="7774a7de",
+    database="heroku_7e0961da45020f8"
+    )
+
+    cursor = db.cursor(buffered=True)
     try:
         cursor.execute("SELECT {} FROM INVENTORY WHERE id={}".format(item, str(id)))
         for item in cursor:
             pass
         return item
-    except:
-        return error
+    except Exception as e:
+        return e
 
 
 #                     0       1            2    
@@ -683,7 +700,8 @@ async def russian(ctx, amount):
                             status = 'starting'
                     else:
                         pass
-                except :
+                except Exception as e :
+                    print(e)
                     break
             if len(playerList) > 1:
                 await ctx.send("Game is starting!")
@@ -811,8 +829,8 @@ async def ask(ctx):
                     else:
                         print("something went wrong")
                         pass
-            except:
-                
+            except Exception as e:
+                print(e)
                 break
         await ctx.guild.voice_client.disconnect()      
     else:
@@ -929,8 +947,8 @@ async def duel(ctx, user):
                         await ctx.send("Invalid Entry")
                 else:
                     pass
-            except:
-                
+            except Exception as e:
+                print(e)
                 break
         if len(users) == 2:
             userCharacters = {}
@@ -957,8 +975,8 @@ async def duel(ctx, user):
                                 await ctx.send("Invalid Entry")
                     else:
                         pass
-                except:
-                    
+                except Exception as e:
+                    print(e)
                     break
         if len(userCharacters) == 2:
             player1 = inventoryValues[userCharacters[users[0].id]]
