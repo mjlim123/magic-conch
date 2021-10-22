@@ -850,7 +850,8 @@ async def ask_error(ctx, error):
 async def monsters(ctx):
     string = ""
     for item in enemies:
-        string += item + "\n"
+        stats = enemies[item]
+        string += item + " | HP: "+str(stats[0])+" DMG: "+str(stats[1])+" REWARD: "+str(stats[2]) + "\n"
     await ctx.send("```fix\n" + string + "\n```")
 
 @client.command()
