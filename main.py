@@ -4,12 +4,13 @@ from discord.ext import commands
 from discord.ext.commands.core import check
 from discord.ext.commands import cooldown
 from discord.message import Message
-
+import os
 import mysql.connector
 from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
+
 
 
 # db = mysql.connector.connect(
@@ -749,7 +750,7 @@ async def russian(ctx, amount):
 @russian.error
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(ctx.author.mention + " Please sepcify an amount to enter. ")
+        await ctx.send(ctx.author.mention + " Please specify an amount to enter. ")
         russian.reset_cooldown(ctx)
 
     if isinstance(error, commands.CommandOnCooldown):
@@ -768,9 +769,13 @@ async def ask(ctx):
                        5: "I Dont Think So.mp3",
                        6: "PlanktonYes.mp3",
                        7: "NoNoNo.mp3",
-                       8: "YesYesYes.mp3",
-                       9: "guh.mp3",
-                       10:"sigh.mp3"}
+                       8: "YesYesYes.mp3"
+                       }
+
+    secret = {1:"guh.mp3",
+              2:"sigh.mp3"
+
+             }
 
     yes = {1: "YesYesYes.mp3",
            2: "PlanktonYes.mp3"
@@ -805,10 +810,10 @@ async def ask(ctx):
                                             vc.play(discord.FFmpegPCMAudio("MP3_Files/"+yes[choice]))
                                             break
                                         elif msg.content.lower().startswith("guh"):
-                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[9]))
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[1]))
                                             break
                                         elif msg.content.lower().startswith("sigh"):
-                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[10]))
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
                                             break
                                         else:
                                             choice = random.randint(1,sizeOfDict)
