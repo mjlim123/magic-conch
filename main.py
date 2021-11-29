@@ -827,11 +827,7 @@ async def ask(ctx):
                         for word in questionWords:
                                 if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
                                     if msg.content.lower().startswith(word):
-                                        if msg.content == "is daniel gay":
-                                            choice = random.randint(1,2)
-                                            vc.play(discord.FFmpegPCMAudio("MP3_Files/"+yes[choice]))
-                                            break
-                                        elif msg.content.lower().startswith("guh"):
+                                        if msg.content.lower().startswith("guh"):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[1]))
                                             break
                                         elif msg.content.lower().startswith("sigh"):
