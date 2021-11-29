@@ -10,6 +10,9 @@ from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 db = mysql.connector.connect(
