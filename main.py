@@ -16,8 +16,8 @@ from decouple import config
 
 db = mysql.connector.connect(
     host="us-cdbr-east-04.cleardb.com",
-    user=config('user',default=''),
-    passwd=config('passwd',default=''),
+    user=os.getenv('db_user'),
+    passwd=os.getenv('db_pw'),
     database="heroku_7e0961da45020f8"
 )
 
@@ -1429,4 +1429,4 @@ async def test(ctx):
         print(line)
 
            
-client.run(config('token',default=''))
+client.run(os.getenv('bot_token'))
