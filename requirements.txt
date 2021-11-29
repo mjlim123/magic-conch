@@ -4,3 +4,4 @@ mysql.connector
 PyNaCl
 ffmpeg
 async-timeout
+decouple
