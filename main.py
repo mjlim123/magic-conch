@@ -10,19 +10,14 @@ from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
+from decouple import config
 
 
 
-# db = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     passwd="Mjlizbel0802!",
-#     database="DiscordBot"
-# )
 db = mysql.connector.connect(
     host="us-cdbr-east-04.cleardb.com",
-    user="b48a25f7a165a9",
-    passwd="7774a7de",
+    user=config('user',default=''),
+    passwd=config('passwd',default=''),
     database="heroku_7e0961da45020f8"
 )
 
@@ -43,26 +38,12 @@ intents.members = True
 client = commands.Bot(intents=intents, command_prefix= '$')
 
 def changeBalance(id, currency, amount):
-    db = mysql.connector.connect(
-    host="us-cdbr-east-04.cleardb.com",
-    user="b48a25f7a165a9",
-    passwd="7774a7de",
-    database="heroku_7e0961da45020f8"
-    )
-
     cursor = db.cursor(buffered=True)
 
     cursor.execute("UPDATE inventory SET {} = {} + {} WHERE id={}".format(str(currency), str(currency), str(amount), str(id)))
     db.commit()
 
 def checkBalance(item, id):
-    db = mysql.connector.connect(
-    host="us-cdbr-east-04.cleardb.com",
-    user="b48a25f7a165a9",
-    passwd="7774a7de",
-    database="heroku_7e0961da45020f8"
-    )
-
     cursor = db.cursor(buffered=True)
     try:
         cursor.execute("SELECT {} FROM INVENTORY WHERE id={}".format(item, str(id)))
@@ -71,10 +52,6 @@ def checkBalance(item, id):
         return item
     except Exception as e:
         return e
-
-
-#                     0       1            2    
-#returns tuple item [id, krabby_patty,basic_pack ]
 
 characters = {"1★ Spongebob":"onestarspongebob",
               "1★ Squidward":"onestarsquidward",
@@ -819,7 +796,7 @@ async def ask(ctx):
                                             choice = random.randint(1,sizeOfDict)
                                             vc.play(discord.FFmpegPCMAudio("MP3_Files/"+responses[choice]))
                                             break
-                                    
+                
                                     else:
                                         print("Im in")
                                         choice = random.randint(1,sizeOfDict)
@@ -1244,7 +1221,6 @@ async def blackjack(ctx, amount):
                 
                 await ctx.send("Blackjack table is starting!")
                 break
-        print(bets)
         players = [Hand(playerNames[i],playerID[i],bets[i]) for i in range(len(playerNames))]
         deal = random.randint(0,len(deck)-1)
         dealer.addCard(deck[deal])
@@ -1254,8 +1230,6 @@ async def blackjack(ctx, amount):
                 deal = random.randint(0,len(deck)-1)
                 player.addCard(deck[deal])
                 deck.remove(deck[deal])
-        for player in players:
-            print(player.name)
         for player in players:
             turn = "playing"
             while turn != "done":
@@ -1274,7 +1248,6 @@ async def blackjack(ctx, amount):
                     blackjacks.append(player)
                     nonbusts.append(player)
                 else:
-                    print("IM here")
                     await ctx.send(player.name+"\n"+
                                             "```fix\n"+
                                             "DEALER'S HAND\n"+
@@ -1440,11 +1413,11 @@ async def blackjack(ctx, amount):
             if len(ties)!= 0:
                 await ctx.send(string + " tied with the dealer!")
             for i in ties:
-                print(ties)
+                print("ties  ",i)
             for i in winners:
-                print(winners)
+                print("winners  ", i)
             for i in losers:
-                print(losers)
+                print("losers  ", i)
 
 
 
@@ -1456,4 +1429,4 @@ async def test(ctx):
         print(line)
 
            
-client.run('ODU2NjA0NDMxOTQ4ODQwOTgw.YNDdCw.T70t0qwo163hYTesdooexOvBYik')
+client.run(config('token',default=''))
