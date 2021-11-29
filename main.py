@@ -36,12 +36,24 @@ intents.members = True
 client = commands.Bot(intents=intents, command_prefix= '$')
 
 def changeBalance(id, currency, amount):
+    db = mysql.connector.connect(
+    host="us-cdbr-east-04.cleardb.com",
+    user=os.getenv('db_user'),
+    passwd=os.getenv('db_pw'),
+    database="heroku_7e0961da45020f8"
+)
     cursor = db.cursor(buffered=True)
 
     cursor.execute("UPDATE inventory SET {} = {} + {} WHERE id={}".format(str(currency), str(currency), str(amount), str(id)))
     db.commit()
 
 def checkBalance(item, id):
+    db = mysql.connector.connect(
+    host="us-cdbr-east-04.cleardb.com",
+    user=os.getenv('db_user'),
+    passwd=os.getenv('db_pw'),
+    database="heroku_7e0961da45020f8"
+)
     cursor = db.cursor(buffered=True)
     try:
         cursor.execute("SELECT {} FROM INVENTORY WHERE id={}".format(item, str(id)))
