@@ -10,14 +10,12 @@ from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
-from dotenv import load_dotenv
 
-load_dotenv()
 
 db = mysql.connector.connect(
     host="us-cdbr-east-04.cleardb.com",
-    user=os.environ['db_user'],
-    passwd=os.environ['db_pw'],
+    user=os.getenv('db_user'),
+    passwd=os.getenv('db_pw'),
     database="heroku_7e0961da45020f8"
 )
 
@@ -1429,4 +1427,4 @@ async def test(ctx):
         print(line)
 
            
-client.run(os.environ['bot_token'])
+client.run(os.getenv('bot_token'))
