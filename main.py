@@ -237,6 +237,9 @@ async def on_member_join(member):
 @client.command()
 @commands.cooldown(1,15, commands.BucketType.user)
 async def work(ctx):
+    '''
+    Rewards player with krabby patties. Has a 15 second cooldown.
+    '''
     roll = random.randint(1,100)
     if roll == 1:
         rare = str(random.randint(200,250))
@@ -263,12 +266,18 @@ async def on_command_error(ctx, error):
 
 @client.command()
 async def balance(ctx):
+    '''
+    Shows player balance.
+    '''
     currentBalance = checkBalance('krabby_patty',ctx.author.id)
     await ctx.send(ctx.author.mention + " Your current balance is " + str(currentBalance[0]) + " :hamburger: .")
 
 
 @client.command()
 async def shop(ctx):
+    '''
+    Show the shop. After invoking the command, type the number of the item you want to buy.
+    '''
     shop = \
 "\nSHOP\n\
 1)BASIC PACK        500 Krabby patties\n\
@@ -332,6 +341,11 @@ async def shop(ctx):
 
 @client.command()
 async def unpack(ctx, *args):
+    '''
+    Unpack a pack from your inventory. Command is formatted as follows:
+    $unpack <cardpack> <amount>
+    (ex. $unpack Basic Pack 10)
+    '''
     print(args)
     type = args[0]
     amount = int(args[2])
@@ -398,6 +412,9 @@ async def unpack(ctx, *args):
 
 @client.command()
 async def inventory(ctx):
+    '''
+    Shows player inventory.
+    '''
     print(columns)
     string = ""
     for x in columns:
@@ -413,6 +430,10 @@ async def inventory(ctx):
 @commands.cooldown(1,15, commands.BucketType.user)
 @client.command()
 async def battle(ctx, monster, user):
+    '''
+    Initiate a battle with a monster. Refer to $monster for the <monster> argument.
+    For the <user> argument, if you own a "1★ Spongebob", it is typed: onestarspongebob
+    '''
     check = checkBalance(user, ctx.author.id)
     if check == "Something went wrong.":
         await ctx.send(ctx.author.mention + "Invalid input")
@@ -568,6 +589,10 @@ async def teambattle(ctx, enemy):
 
 @client.command()
 async def promote(ctx, character):
+    '''
+    Promote a character you own. <character> argument is formatted as follows:
+    If you own a 1★ Spongebob, it is typed: onestarspongebob.
+    '''
     print(character)
     
     if character.startswith("one"):
@@ -642,6 +667,9 @@ async def promote(ctx, character):
 @client.command()
 @commands.cooldown(1,1000,commands.BucketType.guild)  # 1000 second cooldown
 async def russian(ctx, amount):
+    '''
+        Initiate a game of russian roulette, <amount> is the entry fee to join the game.
+    '''
     try:
         int(amount)
     except:
@@ -751,6 +779,10 @@ async def on_command_error(ctx, error):
 @client.command()
 @commands.cooldown(1,10,commands.BucketType.guild) 
 async def ask(ctx):
+    ''' 
+        Summon the Magic Conch Shell. After apprearing, type yes/no questions. Type 'dc'\n\
+        to disconnect the bot.
+    '''
     
     responses =       {1:"No.mp3",
                        2: "Maybe Someday.mp3",
@@ -843,6 +875,9 @@ async def ask_error(ctx, error):
     
 @client.command()
 async def monsters(ctx):
+    '''
+    Show all of the monsters you can fight with the $battle command.
+    '''
     string = ""
     for item in enemies:
         stats = enemies[item]
@@ -851,39 +886,24 @@ async def monsters(ctx):
 
 @client.command()
 async def character(ctx):
+    '''
+    Show all characters available for acquisition.
+    '''
     string = ""
     for item in characters:
         string += item + "\n"
     await ctx.send("```fix\n" + string + "\n```")
 
-@client.command()
-async def helpme(ctx):
-    string = \
-" $balance: shows player balance\n\
- $inventory: shows player inventory\n\
- $work: rewards player with krabby patties. useable every 15 seconds\n\
- $russian [amount]: initiate a game of russian roulette, [amount] being entry fee\n\
-       (ex. $russian 100)\n\
- $ask: Summon the Magic Conch Shell. After apprearing, type yes/no questions. Type 'dc'\n\
-       to disconnect the bot.\n\
- $shop: Show shop. After invoking, type the number of the item you want to buy.\n\
- $character: Show all characters available for acquisition.\n\
- $monsters: Show all monsters you can fight.\n\
- $battle [monster] [character]: Initiate a battle with a monster. Refer to \n\
-       $monster command for all monsters able to be fought. As for summoning your character\n\
-       if you own a '1★ Spongebob' it should be typed 'onestarspongebob; case sensitive. \n\
-       (ex. $battle Jellyfish onestarspongebob)\n\
- $fastbattle [monster] [character]: Exactly the same as $battle, but skips the dialogue.\n\
- $promote [character]: Promotes a character (ex. $promote onestarsandy\n\
- $unpack [type] [amount]: Unpack a pack in your inventory.(ex. $unpack Basic Pack 10]\n\
- $duel [user]: Duel another user in the server."
-
-    await ctx.send("```fix\n" + string + "```")
-
 
 @client.command()
 @commands.cooldown(5,60,commands.BucketType.user)
 async def fastbattle(ctx, monster, user):
+    '''
+    Exactly the same as $battle command, except it does not go through the battling sequence.
+    Initiate a battle with a monster. Refer to $monster for the <monster> argument.
+    For the <user> argument, if you own a "1★ Spongebob", it is typed: onestarspongebob
+    
+    '''
     check = checkBalance(user, ctx.author.id)
     if check == "Something went wrong.":
         await ctx.send(ctx.author.mention + "Invalid input")
@@ -926,6 +946,9 @@ async def on_command_error(ctx, error):
 
 @client.command()
 async def duel(ctx, user):
+    '''
+    Duel another <user> in the server
+    '''
     id = int(user[3:-1])
     if ctx.author.id == id:
         await ctx.send("You can't duel yourself, silly!")
@@ -1433,13 +1456,6 @@ async def blackjack(ctx, amount):
                 print("losers  ", i)
 
 
-
-
-@client.command()
-async def test(ctx):
-    file = open("MP3_Files/test.txt","r")
-    for line in file:
-        print(line)
 
            
 client.run(os.getenv('bot_token'))
