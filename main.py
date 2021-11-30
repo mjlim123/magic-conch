@@ -982,7 +982,7 @@ async def duel(ctx, user):
         while status == 'waiting':
             try:
                 msg = await client.wait_for('message',timeout=20)
-                if msg.channel == ctx.channel:
+                if msg.channel == ctx.channel and msg.author.id == id:
                     if msg.content.lower() == "accept" and msg.author.id == id:
                         users.append(msg.author)
                         break
