@@ -355,10 +355,10 @@ async def unpack(ctx, *args):
     (ex. $unpack Basic Pack 10)
     '''
     
-    print(args)
+    
     type = args[0]
     amount = int(args[2])
-    print(amount)
+    
 
     if type == "Basic":
         currentBalance = checkBalance('basic_pack',ctx.author.id)
@@ -427,19 +427,22 @@ async def inventory(ctx):
     Shows player inventory.
     '''
     
-    
-    print(columns)
+    db = mysql.connector.connect(
+    host="us-cdbr-east-04.cleardb.com",
+    user=os.getenv('db_user'),
+    passwd=os.getenv('db_pw'),
+    database="heroku_7e0961da45020f8"
+)
     string = ""
-    for x in columns:
-        result = checkBalance(x,ctx.author.id)
-        if result[0] == 0:
-            pass
-        else:
-            char = inventoryValues[x]
-            string += char[0] + ": " + str(result[0]) + "\n"
+    cursor = db.cursor(buffered=True)
+    cursor.execute("SELECT * FROM inventory WHERE ID = {}".format(ctx.author.id))
+    result = cursor.fetchall()[0]
+    for i in range(2,len(result)):
+        if result[i] != 0:
+            item = inventoryValues[columns[i-2]]
+            string += item[0] + ": " + str(result[i]) + "\n"
     await ctx.send(ctx.author.mention + "```fix\n" + string + "\n```")
-
-
+    
 @commands.cooldown(1,15, commands.BucketType.user)
 @client.command()
 async def battle(ctx, monster, user):
@@ -455,7 +458,7 @@ async def battle(ctx, monster, user):
     if check == "Something went wrong.":
         await ctx.send(ctx.author.mention + "Invalid input")
     elif check[0] <= 0:
-        print("oops!")
+    
         await ctx.send("You do not own this character.")
     else:
         player = inventoryValues[user]
@@ -600,10 +603,9 @@ async def promote(ctx, character):
     '''
     
     
-    print(character)
+    
     
     if character.startswith("one"):
-        print("Im in")
         check = checkBalance(character, ctx.author.id)
         if check[0] < 4:
             await ctx.send("You do not have enough characters!")
@@ -691,10 +693,7 @@ async def russian(ctx, amount):
         pool = 0
         def check(m):
             input = (m.content.lower())
-            print(type(input))
             if input == "join":
-                print("IM IN")
-                print(input)
                 return input
             if input == "start" and m.author == ctx.author:
                     return m.content == input and m.channel == ctx.channel
@@ -732,11 +731,10 @@ async def russian(ctx, amount):
                     else:
                         pass
                 except Exception as e :
-                    print(e)
                     break
             if len(playerList) > 1:
                 await ctx.send("Game is starting!")
-                print(len(playerList))
+                
                 for person in playerList:
                     changeBalance(person.id, 'krabby_patty', -wager)
                     pool += wager
@@ -753,7 +751,7 @@ async def russian(ctx, amount):
                         pass
                     await ctx.send(playerList[round].mention + " points the gun to their head.  " + ":flushed:" )
                     roll = random.randint(1,chamber)
-                    print("Chance = ", 1/chamber)
+                   
                     await asyncio.sleep(4)
                     if roll == 1:
                         await ctx.send("BANG! :exploding_head: :boom: ")
@@ -852,7 +850,7 @@ async def ask(ctx):
                                             break
                 
                                     else:
-                                        print("Im in")
+                                        
                                         choice = random.randint(1,sizeOfDict)
                                         vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[choice]))
 
@@ -864,11 +862,10 @@ async def ask(ctx):
                     except:
                         pass                  
                 else:
-                    print("something went wrong")
+                  
                     pass
             except Exception as e:
-                print(e)
-                print("well shit")
+    
                 break
         await ctx.guild.voice_client.disconnect()      
     else:
@@ -929,7 +926,7 @@ async def fastbattle(ctx, monster, user):
     if check == "Something went wrong.":
         await ctx.send(ctx.author.mention + "Invalid input")
     elif check[0] <= 0:
-        print("oops!")
+    
         await ctx.send("You do not own this character.")
     else:
         player = inventoryValues[user]
@@ -994,7 +991,7 @@ async def duel(ctx, user):
                 else:
                     pass
             except Exception as e:
-                print(e)
+               
                 break
         if len(users) == 2:
             userCharacters = {}
@@ -1022,13 +1019,13 @@ async def duel(ctx, user):
                     else:
                         pass
                 except Exception as e:
-                    print(e)
+                   
                     break
         if len(userCharacters) == 2:
             player1 = inventoryValues[userCharacters[users[0].id]]
-            print(player1)
+            
             player2 = inventoryValues[userCharacters[users[1].id]]
-            print(player2)
+            
             player1HP = player1[2]
             player2HP = player2[2]
             player1DMG = player1[1]
@@ -1254,11 +1251,11 @@ async def blackjack(ctx, amount):
         lobby.append(ctx.author.id)
         bets.append(wager)
         while True:
-            print(bets)
+            
             try:
                 msg = await client.wait_for("message",timeout=30,check=checkLobby)
                 wager = msg.content[10:]
-                print(wager)
+                
                 try:
                     if msg.content.startswith("blackjack") and msg.author.id in lobby:
                         await ctx.send("You are already in!")
@@ -1317,7 +1314,7 @@ async def blackjack(ctx, amount):
                                             "```"         )
                     action = await client.wait_for("message",check=checkAction)
                     if action.channel != ctx.channel:
-                        print(action.channel, ctx.channel)
+                       
                         pass
                     elif action.content.lower() == 'hit' and action.author.id == player.id:
                         deal = random.randint(0,len(deck)-1)
