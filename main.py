@@ -878,6 +878,82 @@ async def ask_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
             msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
             await ctx.send(str(ctx.author.mention) + (msg))
+            
+@client.command()
+@commands.cooldown(1,10,commands.BucketType.guild) 
+async def ben(ctx):
+    
+    
+    ''' 
+        Summon the Ben. After apprearing, type yes/no questions. Type 'dc'\n\
+        to disconnect the bot.
+    '''
+    
+    responses =       {1:"Ben.mp3",
+                       2: "Ben_Hohoho.mp3",
+                       3:"Ben_No.mp3",
+                       4:"Ben_ughhhh.mp3",
+                       5: "Ben_Yes.mp3",
+                       }
+
+    questionWords = ["are", "am", "is", "can","will", "does", "do", "were", "did", "should", "guh", "sigh" ]
+
+    sizeOfDict = len(responses)
+    status = "in channel"
+    eatCount = []
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        while status == "in channel":
+            try:
+                vc.play(discord.FFmpegPCMAudio("MP3_Files/"+responses[1]))
+                msg = await client.wait_for('message',timeout=60)
+                if msg.channel == ctx.channel:
+                    try:
+                        for word in questionWords:
+                                if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
+                                    if msg.content.lower().startswith(word):
+                                        if msg.content.lower().startswith("guh"):
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[1]))
+                                            break
+                                        elif msg.content.lower().startswith("sigh"):
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
+                                            break
+                                        else:
+                                            choice = random.randint(2,sizeOfDict)
+                                            vc.play(discord.FFmpegPCMAudio("MP3_Files/"+responses[choice]))
+                                            break
+                
+                                    else:
+                                        
+                                        choice = random.randint(2,sizeOfDict)
+                                        vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[choice]))
+
+                                elif msg.content == "dc":
+                                    await ctx.guild.voice_client.disconnect()
+                                    break
+                                else:
+                                    pass   
+                    except:
+                        pass                  
+                else:
+                  
+                    pass
+            except Exception as e:
+    
+                break
+        await ctx.guild.voice_client.disconnect()      
+    else:
+        await ctx.send("You must be in a voice channel to use this command.")
+    
+    
+    
+@ask.error 
+async def ask_error(ctx, error):  
+    if isinstance(error, commands.CommandOnCooldown):
+            msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
+            await ctx.send(str(ctx.author.mention) + (msg))            
+
     
 @client.command()
 async def monsters(ctx):
