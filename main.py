@@ -913,16 +913,9 @@ async def ben(ctx):
                         for word in questionWords:
                                 if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
                                     if msg.content.lower().startswith(word):
-                                        if msg.content.lower().startswith("guh"):
-                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[1]))
-                                            break
-                                        elif msg.content.lower().startswith("sigh"):
-                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
-                                            break
-                                        else:
-                                            choice = random.randint(2,sizeOfDict)
-                                            vc.play(discord.FFmpegPCMAudio("MP3_Files/"+responses[choice]))
-                                            break
+                                        choice = random.randint(2,sizeOfDict)
+                                        vc.play(discord.FFmpegPCMAudio("MP3_Files/"+responses[choice]))
+                                        break
                 
                                     else:
                                         
