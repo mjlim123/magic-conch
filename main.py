@@ -807,7 +807,8 @@ async def ask(ctx):
 
     secret = {1:"guh.mp3",
               2:"sigh.mp3",
-              3:"snore.mp3"
+              3:"snore.mp3",
+              4: "mrs.puff.mp3"
 
              }
 
@@ -822,7 +823,7 @@ async def ask(ctx):
                      4: "Try Asking Again",
                      5: "I Dont Think So"}
 
-    questionWords = ["are", "am", "is", "can","will", "does", "do", "were", "did", "should", "guh", "sigh", "snore" ]
+    questionWords = ["are", "am", "is", "can","will", "does", "do", "were", "did", "should", "guh", "sigh", "snore","mrs puff" ]
 
     sizeOfDict = len(responses)
     sizeeOfYes = len(yes)
@@ -851,6 +852,10 @@ async def ask(ctx):
                                         elif msg.content.lower().startswith("snore"):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[3]))
                                             print("snore")
+                                            break
+                                        elif msg.content.lower().startswith("mrs puff"):
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[4]))
+                                            print("mrs puff")
                                             break
                                         else:
                                             choice = random.randint(1,sizeOfDict)
