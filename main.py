@@ -846,7 +846,7 @@ async def ask(ctx):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
                                             break
                                         elif msg.content.lower().startswith("snore"):
-                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[3]))
                                             break
                                         else:
                                             choice = random.randint(1,sizeOfDict)
