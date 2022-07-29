@@ -822,7 +822,7 @@ async def ask(ctx):
                      4: "Try Asking Again",
                      5: "I Dont Think So"}
 
-    questionWords = ["are", "am", "is", "can","will", "does", "do", "were", "did", "should", "guh", "sigh" ]
+    questionWords = ["are", "am", "is", "can","will", "does", "do", "were", "did", "should", "guh", "sigh", "snore" ]
 
     sizeOfDict = len(responses)
     sizeeOfYes = len(yes)
@@ -839,14 +839,18 @@ async def ask(ctx):
                         for word in questionWords:
                                 if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
                                     if msg.content.lower().startswith(word):
+                                        print(msg.content)
                                         if msg.content.lower().startswith("guh"):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[1]))
+                                            print("guh")
                                             break
                                         elif msg.content.lower().startswith("sigh"):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
+                                            print("sigh")
                                             break
                                         elif msg.content.lower().startswith("snore"):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[3]))
+                                            print("snore")
                                             break
                                         else:
                                             choice = random.randint(1,sizeOfDict)
