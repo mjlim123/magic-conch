@@ -806,7 +806,8 @@ async def ask(ctx):
                        }
 
     secret = {1:"guh.mp3",
-              2:"sigh.mp3"
+              2:"sigh.mp3",
+              3:"snore.mp3"
 
              }
 
@@ -842,6 +843,9 @@ async def ask(ctx):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[1]))
                                             break
                                         elif msg.content.lower().startswith("sigh"):
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
+                                            break
+                                        elif msg.content.lower().startswith("snore"):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[2]))
                                             break
                                         else:
@@ -913,11 +917,15 @@ async def ben(ctx):
                         for word in questionWords:
                             if (ctx.author.voice) and msg.content.lower().startswith(word) == True:
                                 if msg.content.lower().startswith(word):
-                                    print("QUESTION ASKED!")
-                                    choice = random.randint(2,sizeOfDict)
-                                    print(responses[choice])
-                                    vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[choice]))
-                                    break
+                                    if msg.content.lower().startswith("ben"):
+                                        vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[1]))
+                                        break
+                                    else:
+                                        print("QUESTION ASKED!")
+                                        choice = random.randint(2,sizeOfDict)
+                                        print(responses[choice])
+                                        vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+responses[choice]))
+                                        break
                                 else:
                                     print("?????")
                                     choice = random.randint(2,sizeOfDict)
