@@ -809,7 +809,8 @@ async def ask(ctx):
               2:"sigh.mp3",
               3:"snore.mp3",
               4: "mrs.puff.mp3",
-              5: "danieleatspoo.mp3"
+              5: "danieleatspoo.mp3",
+              6: "teehee.mp3"
 
              }
 
@@ -824,7 +825,7 @@ async def ask(ctx):
                      4: "Try Asking Again",
                      5: "I Dont Think So"}
 
-    questionWords = ["are", "am", "is", "can","will", "does", "do", "were", "did", "should", "guh", "sigh", "snore","mrs puff","daniel" ]
+    questionWords = ["are", "am", "is", "can","will", "does", "do", "were", "did", "should", "guh", "sigh", "snore","mrs puff","daniel","teehee" ]
 
     sizeOfDict = len(responses)
     sizeeOfYes = len(yes)
@@ -860,6 +861,10 @@ async def ask(ctx):
                                             break
                                         elif msg.content.lower().startswith("daniel"):
                                             vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[5]))
+                                            print("daniel")
+                                            break
+                                        elif msg.content.lower().startswith("teehee"):
+                                            vc.play(discord.FFmpegPCMAudio(source="MP3_Files/"+secret[6]))
                                             print("daniel")
                                             break
                                         else:
