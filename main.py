@@ -10,6 +10,7 @@ from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
+from mutagen.mp3 import MP3
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -911,6 +912,31 @@ async def ask_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
             msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
             await ctx.send(str(ctx.author.mention) + (msg))
+
+@client.command()
+async def guh(ctx):
+    status = "in channel"
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/guh.mp3"))
+        await asyncio.sleep(MP3("MP3_Files/guh.mp3").info.length)
+        await ctx.guild.voice_client.disconnect()
+
+@client.command()
+async def mummy(ctx):
+    status = "in channel"
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/mummy.mp3"))
+        await asyncio.sleep(MP3("MP3_Files/mummy.mp3").info.length)
+        await ctx.guild.voice_client.disconnect()
+
+
+
+
+
             
 @client.command()
 @commands.cooldown(1,10,commands.BucketType.guild) 
