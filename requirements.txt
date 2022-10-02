@@ -3,6 +3,5 @@ asyncio
 mysql.connector
 PyNaCl
 ffmpeg
-mutagen
 async-timeout
 python-dotenv==0.19.2
