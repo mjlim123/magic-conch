@@ -10,7 +10,7 @@ from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
-from mutagen.mp3 import MP3
+import mutagen
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -920,7 +920,7 @@ async def guh(ctx):
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/guh.mp3"))
-        await asyncio.sleep(MP3("MP3_Files/guh.mp3").info.length)
+        await asyncio.sleep(mutagen.MP3("MP3_Files/guh.mp3").info.length)
         await ctx.guild.voice_client.disconnect()
 
 @client.command()
@@ -930,7 +930,7 @@ async def mummy(ctx):
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/mummy.mp3"))
-        await asyncio.sleep(MP3("MP3_Files/mummy.mp3").info.length)
+        await asyncio.sleep(mutagen.MP3("MP3_Files/mummy.mp3").info.length)
         await ctx.guild.voice_client.disconnect()
 
 
