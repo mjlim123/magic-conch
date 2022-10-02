@@ -10,7 +10,6 @@ from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
-#import mutagen
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -941,7 +940,6 @@ async def ask_error(ctx, error):
 @client.command()
 @commands.cooldown(1,10,commands.BucketType.guild) 
 async def ben(ctx):
-    
     
     ''' 
         Summon Ben. After apprearing, type yes/no questions. Type 'dc'\n\
