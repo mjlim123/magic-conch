@@ -10,6 +10,7 @@ from mysql.connector.cursor import MySQLCursor
 import random
 import asyncio
 import mysql
+import mutagen.mp3
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -33,7 +34,7 @@ for x in cursor.description:
     else:
         columns.append(x[0])
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.members = True
 
 client = commands.Bot(intents=intents, command_prefix= '$')
@@ -912,25 +913,25 @@ async def ask_error(ctx, error):
             msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
             await ctx.send(str(ctx.author.mention) + (msg))
 
-# @client.command()
-# async def guh(ctx):
-#     status = "in channel"
-#     if (ctx.author.voice):
-#         channel = ctx.message.author.voice.channel
-#         vc = await channel.connect()
-#         vc.play(discord.FFmpegPCMAudio("MP3_Files/guh.mp3"))
-#         await asyncio.sleep(mutagen.MP3("MP3_Files/guh.mp3").info.length)
-#         await ctx.guild.voice_client.disconnect()
+@client.command()
+async def guh(ctx):
+    status = "in channel"
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/guh.mp3"))
+        await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/guh.mp3").info.length)
+        await ctx.guild.voice_client.disconnect()
 
-# @client.command()
-# async def mummy(ctx):
-#     status = "in channel"
-#     if (ctx.author.voice):
-#         channel = ctx.message.author.voice.channel
-#         vc = await channel.connect()
-#         vc.play(discord.FFmpegPCMAudio("MP3_Files/mummy.mp3"))
-#         await asyncio.sleep(mutagen.MP3("MP3_Files/mummy.mp3").info.length)
-#         await ctx.guild.voice_client.disconnect()
+@client.command()
+async def mummy(ctx):
+    status = "in channel"
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/mummy.mp3"))
+        await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/mummy.mp3").info.length)
+        await ctx.guild.voice_client.disconnect()
 
 
 
@@ -940,6 +941,7 @@ async def ask_error(ctx, error):
 @client.command()
 @commands.cooldown(1,10,commands.BucketType.guild) 
 async def ben(ctx):
+    
     
     ''' 
         Summon Ben. After apprearing, type yes/no questions. Type 'dc'\n\
