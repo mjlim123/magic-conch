@@ -933,6 +933,15 @@ async def mummy(ctx):
         await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/mummy.mp3").info.length)
         await ctx.guild.voice_client.disconnect()
 
+async def snore(ctx):
+    status = "in channel"
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/snore.mp3"))
+        await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/snore.mp3").info.length)
+        await ctx.guild.voice_client.disconnect()
+
 
 
 
