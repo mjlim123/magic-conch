@@ -952,6 +952,17 @@ async def pete(ctx):
         vc.play(discord.FFmpegPCMAudio("MP3_Files/pete.mp3"))
         await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/pete.mp3").info.length)
         await ctx.guild.voice_client.disconnect()
+        
+
+@client.command()
+async def ok(ctx):
+    status = "in channel"
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/ok_z.mp3"))
+        await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/ok_z.mp3").info.length)
+        await ctx.guild.voice_client.disconnect()
 
 
 
