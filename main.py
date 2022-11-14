@@ -917,6 +917,7 @@ async def ask_error(ctx, error):
 async def guh(ctx):
     status = "in channel"
     if (ctx.author.voice):
+        await asyncio.sleep(.5)
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/guh.mp3"))
@@ -927,6 +928,7 @@ async def guh(ctx):
 async def mummy(ctx):
     status = "in channel"
     if (ctx.author.voice):
+        await asyncio.sleep(.5)
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/mummy.mp3"))
@@ -937,6 +939,7 @@ async def mummy(ctx):
 async def snore(ctx):
     status = "in channel"
     if (ctx.author.voice):
+        await asyncio.sleep(.5)
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/snore.mp3"))
@@ -947,6 +950,7 @@ async def snore(ctx):
 async def pete(ctx):
     status = "in channel"
     if (ctx.author.voice):
+        await asyncio.sleep(.5)
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/pete.mp3"))
@@ -958,6 +962,7 @@ async def pete(ctx):
 async def ok(ctx):
     status = "in channel"
     if (ctx.author.voice):
+        await asyncio.sleep(.5)
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/ok_z.mp3"))
@@ -969,6 +974,7 @@ async def ok(ctx):
 async def daddy(ctx):
     status = "in channel"
     if (ctx.author.voice):
+        await asyncio.sleep(.5)
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         vc.play(discord.FFmpegPCMAudio("MP3_Files/daddy_chill.mp3"))
