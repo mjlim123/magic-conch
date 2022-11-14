@@ -980,6 +980,17 @@ async def daddy(ctx):
         vc.play(discord.FFmpegPCMAudio("MP3_Files/daddy_chill.mp3"))
         await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/daddy_chill.mp3").info.length)
         await ctx.guild.voice_client.disconnect()
+        
+@client.command()
+async def daniel(ctx):
+    status = "in channel"
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        await asyncio.sleep(.5)
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/danieleatspoo.mp3"))
+        await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/danieleatspoo.mp3").info.length)
+        await ctx.guild.voice_client.disconnect()
 
 
 
