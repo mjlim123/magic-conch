@@ -1005,18 +1005,15 @@ async def nut(ctx):
         await ctx.guild.voice_client.disconnect()
         
 @client.command()
-async def nyeh(ctx):
+async def myah(ctx):
     status = "in channel"
     if (ctx.author.voice):
         channel = ctx.message.author.voice.channel
         vc = await channel.connect()
         await asyncio.sleep(.5)
-        vc.play(discord.FFmpegPCMAudio("MP3_Files/nyeh.mp3"))
-        await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/nyeh.mp3").info.length)
+        vc.play(discord.FFmpegPCMAudio("MP3_Files/myah.mp3"))
+        await asyncio.sleep(mutagen.mp3.MP3("MP3_Files/myah.mp3").info.length)
         await ctx.guild.voice_client.disconnect()
-
-
-
 
             
 @client.command()
