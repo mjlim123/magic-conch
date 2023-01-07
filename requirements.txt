@@ -6,3 +6,5 @@ ffmpeg
 async-timeout
 python-dotenv==0.19.2
 mutagen
+openai
+requests

@@ -12,8 +12,11 @@ import asyncio
 import mysql
 import mutagen.mp3
 from dotenv import load_dotenv
+import openai
+
 
 load_dotenv()
+openai.api_key = os.getenv('open_ai_api')
 
 
 db = mysql.connector.connect(
@@ -267,13 +270,33 @@ async def on_command_error(ctx, error):
         msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
         await ctx.send(str(ctx.author.mention) + (msg))
 
+
 @client.command()
-async def balance(ctx):
+@commands.cooldown(1,10, commands.BucketType.user)
+async def chat(ctx, *, input):
+    print(input)
+    await ctx.send("```fix\n"+ input + "```")
+    response = openai.Completion.create(
+        model="text-curie-001",
+        prompt= input +"\nAI:",
+        max_tokens=150,
+        temperature=0.9
+    )
+    print(response)
+    print(response.choices[0].text)
+    await ctx.send(str(ctx.author.mention) + "```fix\n"+ response.choices[0].text + "```")
     
+@chat.error
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
+        await ctx.send(str(ctx.author.mention) + (msg))
+    
+@client.command() 
+async def balance(ctx):
     '''
     Shows player balance.
-    '''
-    
+    '''   
     currentBalance = checkBalance('krabby_patty',ctx.author.id)
     await ctx.send(ctx.author.mention + " Your current balance is " + str(currentBalance[0]) + " :hamburger: .")
 
@@ -422,8 +445,6 @@ async def unpack(ctx, *args):
 
 @client.command()
 async def inventory(ctx):
-    
-    
     '''
     Shows player inventory.
     '''
@@ -447,8 +468,6 @@ async def inventory(ctx):
 @commands.cooldown(1,15, commands.BucketType.user)
 @client.command()
 async def battle(ctx, monster, user):
-    
-    
     '''
     Initiate a battle with a monster. Refer to $monster for the <monster> argument.
     For the <user> argument, if you own a "1★ Spongebob", it is typed: onestarspongebob
