@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands.core import check
 from discord.ext.commands import cooldown
+from discord import app_commands
 from discord.message import Message
 import os
 import mysql.connector
@@ -189,7 +190,6 @@ master_pack = {1:"4★ Spongebob",
 }
 
 
-
 @client.event
 
 async def on_ready():
@@ -269,29 +269,52 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
         await ctx.send(str(ctx.author.mention) + (msg))
-
+        
 
 @client.command()
 @commands.cooldown(1,10, commands.BucketType.user)
-async def chat(ctx, *, input):
-    print(input)
-    await ctx.send("```fix\n"+ input + "```")
-    response = openai.Completion.create(
-        model="text-curie-001",
-        prompt= input +"\nAI:",
-        max_tokens=150,
-        temperature=0.9
-    )
-    print(response)
-    print(response.choices[0].text)
-    await ctx.send(str(ctx.author.mention) + "```fix\n"+ response.choices[0].text + "```")
-    
+async def chat(ctx, model, *, input):
+    models = ["davinci", "curie"]
+    if model in models:
+        if model == "davinci":
+            currentBalance = checkBalance('krabby_patty', ctx.author.id)[0]
+            if currentBalance < 1000:
+                await ctx.send(ctx.author.mention + "You need 500 :hamburger: to use this model")
+            else:
+                print(input)
+                await ctx.send("```fix\n"+ input + "```")
+                changeBalance(ctx.author.id,'krabby_patty',str(-500))
+                response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt= input +"\nAI:",
+                max_tokens=150,
+                temperature=0.9
+            )
+            print(response)
+            print(response.choices[0].text)
+            await ctx.send(str(ctx.author.mention) + "```fix\n"+ response.choices[0].text + "```")   
+        else:
+            print(input)
+            await ctx.send("```fix\n"+ input + "```")
+            response = openai.Completion.create(
+                model="text-curie-001",
+                prompt= input +"\nAI:",
+                max_tokens=150,
+                temperature=0.9
+            )
+            print(response)
+            print(response.choices[0].text)
+            await ctx.send(str(ctx.author.mention) + "```fix\n"+ response.choices[0].text + "```")
+    else:
+        await ctx.send("Invalid model entered.")
+            
 @chat.error
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
         await ctx.send(str(ctx.author.mention) + (msg))
-    
+
+ 
 @client.command() 
 async def balance(ctx):
     '''
