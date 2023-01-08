@@ -278,7 +278,7 @@ async def chat(ctx, model, *, input):
     if model in models:
         if model == "davinci":
             currentBalance = checkBalance('krabby_patty', ctx.author.id)[0]
-            if currentBalance < 1000:
+            if currentBalance < 500:
                 await ctx.send(ctx.author.mention + "You need 500 :hamburger: to use this model")
             else:
                 print(input)
