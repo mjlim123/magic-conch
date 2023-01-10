@@ -287,7 +287,7 @@ async def chat(ctx, model, *, input):
                 response = openai.Completion.create(
                 model="text-davinci-003",
                 prompt= input +"\nAI:",
-                max_tokens=150,
+                max_tokens=500,
                 temperature=0.9
             )
             print(response)
