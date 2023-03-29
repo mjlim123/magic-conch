@@ -12,12 +12,20 @@ import random
 import asyncio
 import mysql
 import mutagen.mp3
+import mutagen.wave
+import functools
+import typing
+import time
+import uuid
+
 from dotenv import load_dotenv
 import openai
+import fakeyou
 
 
 load_dotenv()
 openai.api_key = os.getenv('open_ai_api')
+fy = fakeyou.FakeYou()
 
 
 db = mysql.connector.connect(
@@ -42,6 +50,7 @@ intents = discord.Intents.all()
 intents.members = True
 
 client = commands.Bot(intents=intents, command_prefix= '$')
+
 
 def changeBalance(id, currency, amount):
     db = mysql.connector.connect(
@@ -189,6 +198,8 @@ master_pack = {1:"4★ Spongebob",
 
 }
 
+queue = []
+
 
 @client.event
 
@@ -236,7 +247,70 @@ async def on_member_join(member): # ADD MEMBER TO DATABASE ON JOIN
                 db.commit()
     print("Database Updated")
     del memberList
+    
+@client.command()
+async def dc(ctx):
+    if (ctx.author.voice):
+        await ctx.guild.voice_client.disconnect()
 
+def blocking_func(model, prompt, id):
+    print("generating wav file " + prompt)
+    fy.say(text=prompt, ttsModelToken=model)
+    filename = f"{id}.wav"
+    print(filename)
+    os.rename("fakeyou.wav", filename)
+
+async def run_blocking(blocking_func: typing.Callable, *args, **kwargs) -> typing.Any:
+    """Runs a blocking function in a non-blocking way"""
+    func = functools.partial(blocking_func, *args, **kwargs) # `run_in_executor` doesn't support kwargs, `functools.partial` does
+    return await client.loop.run_in_executor(None, func)
+
+@client.command()
+async def add(ctx, model, *, prompt):
+    voice = discord.utils.get(client.voice_clients, guild=ctx.guild)
+    if voice == None:
+        ctx.send("Bot is not connected. Use $speak instead!")
+    else:
+        fileID = uuid.uuid1()
+        await run_blocking(blocking_func, model, prompt, fileID) # Pass the args and kwargs here
+        audioFile = f"{fileID}.wav"
+        queue.append(audioFile)
+        print(queue)
+        print("audio created")
+
+
+@commands.cooldown(1,15, commands.BucketType.guild)
+@client.command()
+async def speak(ctx, model, *, prompt):
+    voice_client = discord.utils.get(client.voice_clients, guild=ctx.guild)
+    if voice_client:
+        await ctx.send('Already connected to voice channel use "$add instead!"')
+    else:
+        fileID = uuid.uuid1()
+        await run_blocking(blocking_func, model, prompt, fileID) # Pass the args and kwargs here
+        audioFile = f"{fileID}.wav"
+        queue.append(audioFile)
+        print(queue)
+        print("audio created")
+        await asyncio.sleep(2)
+        if (ctx.author.voice):
+            channel = ctx.message.author.voice.channel
+            vc = await channel.connect()
+            while queue:
+                await asyncio.sleep(1)
+                print(queue[0])
+                vc.play(discord.FFmpegPCMAudio(queue[0]))
+                await asyncio.sleep(mutagen.wave.WAVE(queue[0]).info.length)
+                os.remove(queue[0])
+                queue.pop(0)
+            await ctx.guild.voice_client.disconnect()
+            
+@test.error
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
+        await ctx.send(str(ctx.author.mention) + (msg))
+    
 
 @client.command()
 @commands.cooldown(1,15, commands.BucketType.user)
@@ -245,7 +319,6 @@ async def work(ctx):
     '''
     Rewards player with krabby patties. Has a 15 second cooldown.
     '''
-    
     roll = random.randint(1,100)
     if roll == 1:
         rare = str(random.randint(200,250))
@@ -269,8 +342,87 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
         await ctx.send(str(ctx.author.mention) + (msg))
-        
 
+@client.command()
+async def search(ctx, *, input):
+    print(input)
+    result = fy.search(input)
+    resultString = ''
+    for i in range(len(result.voices.title)):
+        if len(resultString) < 1900:
+            resultString += result.voices.title[i] + " : " + " TOKEN = " + result.voices.modelTokens[i] + "\n"  
+    await ctx.send("```fix\n" + resultString + "```")
+    
+# @client.command()
+# async def speak(ctx, model, *, prompt):
+#     try:
+#         print("generating wav file " + prompt)
+#         fy.say(text=prompt, ttsModelToken=model)
+#     except:
+#         print("Something went wrong")
+#     else:
+#         print("audio created")
+#         await asyncio.sleep(2)
+#         if (ctx.author.voice):
+#             channel = ctx.message.author.voice.channel
+#             vc = await channel.connect()
+#             await asyncio.sleep(1)
+#             vc.play(discord.FFmpegPCMAudio("fakeyou.wav"))
+#             await asyncio.sleep(mutagen.wave.WAVE('fakeyou.wav').info.length)
+#             await ctx.guild.voice_client.disconnect()
+            
+@client.command()
+async def jebait(ctx):
+    status = "in channel"
+    running = True
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        time = 0
+        while running:
+            roll = random.randint(1,100)
+            print(roll)
+            if roll == 90:
+                clipRoll = random.randint(1,3)
+                if clipRoll == 1:
+                    vc.play(discord.FFmpegPCMAudio("MP3_Files/discord_join.mp3"))
+                elif clipRoll == 2:
+                    vc.play(discord.FFmpegPCMAudio("MP3_Files/discord_leave.mp3"))
+                else:
+                    vc.play(discord.FFmpegPCMAudio("MP3_Files/discord_notification.mp3"))
+            await asyncio.sleep(1)
+            time += 1
+            if time > 10000:
+                break
+        
+        await ctx.guild.voice_client.disconnect()
+
+@client.command()
+async def quack(ctx):
+    status = "in channel"
+    running = True
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        vc = await channel.connect()
+        time = 0
+        while running:
+            roll = random.randint(1,100)
+            print(roll)
+            if roll == 90:
+                try:
+                    vc.play(discord.FFmpegPCMAudio("MP3_Files/quack.mp3"))
+                except error:
+                    print(error)
+            await asyncio.sleep(1)
+            time += 1
+            if time > 10000:
+                break
+        
+        await ctx.guild.voice_client.disconnect()
+            
+    
+    
+    
 @client.command()
 @commands.cooldown(1,10, commands.BucketType.user)
 async def chat(ctx, model, *, input):
@@ -391,7 +543,7 @@ async def shop(ctx):
     else:
         pass
 
-
+        
 @client.command()
 async def unpack(ctx, *args):
     
@@ -644,9 +796,6 @@ async def promote(ctx, character):
     Promote a character you own. <character> argument is formatted as follows:
     If you own a 1★ Spongebob, it is typed: onestarspongebob.
     '''
-    
-    
-    
     
     if character.startswith("one"):
         check = checkBalance(character, ctx.author.id)
