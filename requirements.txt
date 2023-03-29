@@ -11,4 +11,3 @@ requests
 fakeyou
 typing
 uuid
-functools

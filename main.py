@@ -305,7 +305,7 @@ async def speak(ctx, model, *, prompt):
                 queue.pop(0)
             await ctx.guild.voice_client.disconnect()
             
-@test.error
+@speak.error
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         msg = ' Wait {:.0f} seconds before trying again.'.format(error.retry_after)
